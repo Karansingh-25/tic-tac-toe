@@ -35,7 +35,6 @@ reset.addEventListener("click",()=>{
 
 boxes.forEach((box) => {
     box.addEventListener("click",()=>{
-        console.log("clicked")
         if(turnO){
             box.innerText="O" 
             turnO=false
@@ -50,19 +49,29 @@ boxes.forEach((box) => {
 
 });
 
-
 let checkwinner=()=>{
+    let isDraw=true;
     for(let pattern of winning_condition){
         let pos1=boxes[pattern[0]].innerText;
         let pos2=boxes[pattern[1]].innerText;
         let pos3=boxes[pattern[2]].innerText;
     
-    if(pos1!="" && pos2!="" && pos3!=""){
+    if(pos1!=="" && pos2!=="" && pos3!==""){
         if(pos1===pos2 && pos2===pos3){
-            console.log("Winner")
             showwinner(pos1);
             }
         }
+    }
+
+    for (const box of boxes) {
+        if(box.innerText===""){
+            isDraw=false;
+            break;
+        }
+    }
+
+    if (isDraw) {
+        showDraw();
     }
 }
 
@@ -74,6 +83,14 @@ let boxdisabled = ()=>{
 
 let showwinner=(winner)=>{
     msg.innerText=`Congratulations ! Winner is ${winner}`
+    msg.style.color="#002D8D"
+    msg.style.fontSize="2rem"
+    msg.classList.remove("hide")
+    boxdisabled();
+}
+
+let showDraw=()=>{
+    msg.innerText="Game Was Draw!!"
     msg.style.color="#002D8D"
     msg.style.fontSize="2rem"
     msg.classList.remove("hide")
